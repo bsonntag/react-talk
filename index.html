@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+	<head>
+    <meta charset="utf-8">
+    <title>Let's React!</title>
+    <meta name="description" content="A talk about the React world.">
+    <meta name="author" content="Benjamim Sonntag">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+		<div class="reveal">
+      <div class="slides">
+        <section data-background="https://facebook.github.io/react/img/logo.svg" data-background-size="300px">
+        </section>
+
+        <section>
+          <h1>Let's React!</h1>
+
+          <p>A talk about the React world.</p>
+          <p>
+            <small>
+              Created by Benjamim Sonntag for a <a href="sioslife.com">siosLIFE</a> talk & roll.
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <section>
+            <h2>React?</h2>
+
+            <p>"A JavaScript library for building <i>user interfaces</i>."</p>
+            <p>Made by Facebook</p>
+          </section>
+
+          <section>
+            <h2>Just the UI</h2>
+            <p>Makes no assumptions about the rest of the application.</p>
+            <p>It's the V in MVC.</p>
+          </section>
+
+          <section>
+            <h2>Super simple</h2>
+            <p>No overload of features to explore (and get lost in).</p>
+            <p>Fast to start using.</p>
+          </section>
+        </section>
+
+        <section id="components">
+          <section>
+            <h2>Components</h2>
+            <p>React is all about building components.</p>
+            <p>Components are not templates.</p>
+          </section>
+
+          <section>
+            <h2>JSX</h2>
+            <p>Components unify markup with its view logic.</p>
+            <p>(Yes, JavaScript and HTML in the same file. Yuck...)</p>
+          </section>
+
+          <section>
+            <h2>Single responsibility</h2>
+            <p>Components should be encapsulated and reusable.</p>
+            <p>Makes them easier to maintain.</p>
+          </section>
+        </section>
+
+        <section id="state">
+          <section>
+            <h2>Properties and state</h2>
+            <p>A component's properties never change.</p>
+            <p>State is mutable and its changes affect the view.</p>
+          </section>
+
+          <section>
+            <h2>It's all about state</h2>
+            <p>When some data changes, the view will update to represent the new state.</p>
+            <p>These are called "Reactive updates".</p>
+          </section>
+
+          <section>
+            <h2>Release the data!</h2>
+            <p>There's no need for data binding, since data changes affect the view directly.</p>
+          </section>
+        </section>
+
+        <section id="example">
+          <section data-markdown>
+            <script type="text/template">
+              ## How does it look like?
+
+              ```js
+              var HelloMessage = React.createClass({
+                render: function() {
+                  return <div>
+                    Hello {this.props.name}!
+                  </div>;
+                }
+              });
+              ```
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## What about state?
+
+              ```js
+              var ClickCounter = React.createClass({
+                getInitialState: function() {
+                  return { count: 0 };
+                },
+                increment: function() {
+                  this.setState({
+                    count: this.state.count + 1
+                  });
+                },
+                render: function() {
+                  return <div>
+                    Clicked {this.state.count} times.
+                    <button onClick={this.increment}></button>
+                  </div>;
+                }
+              });
+              ```
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Put them together
+
+              ```js
+              var App = React.createClass({
+                render: function() {
+                  return <div>
+                    <HelloMessage name="Benjamim"></HelloMessage>
+                    <ClickCounter></ClickCounter>
+                  </div>;
+                }
+              });
+              ```
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Component life-cycle</h2>
+          </section>
+        </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
