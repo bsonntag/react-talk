@@ -29,9 +29,6 @@
   <body>
 		<div class="reveal">
       <div class="slides">
-        <section data-background="https://facebook.github.io/react/img/logo.svg" data-background-size="300px">
-        </section>
-
         <section>
           <h1>Let's React!</h1>
 
@@ -43,12 +40,15 @@
           </p>
         </section>
 
+        <section data-background="react-logo.svg" data-background-size="300px">
+        </section>
+
         <section>
           <section>
-            <h2>React?</h2>
+            <h2>React</h2>
 
             <p>"A JavaScript library for building <i>user interfaces</i>."</p>
-            <p>Made by Facebook</p>
+            <p>Made by Facebook and Instagram</p>
           </section>
 
           <section>
@@ -74,7 +74,7 @@
           <section>
             <h2>JSX</h2>
             <p>Components unify markup with its view logic.</p>
-            <p>(Yes, JavaScript and HTML in the same file. Yuck...)</p>
+            <p><small>(Yes, JavaScript and HTML in the same file. Yuck...)</small></p>
           </section>
 
           <section>
@@ -87,19 +87,32 @@
         <section id="state">
           <section>
             <h2>Properties and state</h2>
-            <p>A component's properties never change.</p>
-            <p>State is mutable and its changes affect the view.</p>
+            <p>A component's properties are changed by its parent.</p>
+            <p>The state is updated by the component itself or by external events.</p>
           </section>
 
           <section>
             <h2>It's all about state</h2>
-            <p>When some data changes, the view will update to represent the new state.</p>
-            <p>These are called "Reactive updates".</p>
+            <p>When the state is updated, the view will re-render itself.</p>
+            <p>Components can be seen as state machines.</p>
           </section>
 
-          <section>
-            <h2>Release the data!</h2>
-            <p>There's no need for data binding, since data changes affect the view directly.</p>
+          <section data-markdown>
+            <script type="text/template">
+              ## Update, render, repeat
+
+              Feels like game programming!
+
+              ```
+              while(true) {
+                processInput();
+                update();
+                render();
+              }
+              ```
+
+              (From [gameprogrammingpatterns.com](http://gameprogrammingpatterns.com/game-loop.html))
+            </script>
           </section>
         </section>
 
@@ -153,7 +166,7 @@
               var App = React.createClass({
                 render: function() {
                   return <div>
-                    <HelloMessage name="Benjamim"></HelloMessage>
+                    <HelloMessage name="Maria Rosa"></HelloMessage>
                     <ClickCounter></ClickCounter>
                   </div>;
                 }
@@ -165,8 +178,250 @@
 
         <section>
           <section>
-            <h2>Component life-cycle</h2>
+            <h2>Component methods and lifecycle</h2>
+            <p>The object passed to React.createClass() specifies the component's methods, including lifecycle methods.</p>
           </section>
+
+          <section>
+            <h2 style="text-transform: none">render()</h2>
+            <p>
+              Must return a single DOM element,
+              that can be another React component or a native DOM element (like a &ltdiv&gt)
+            </p>
+            <p>The render method is required.</p>
+          </section>
+
+          <section>
+            <h2 style="text-transform: none">getDefaultProps()</h2>
+            <p>
+              Values in the returned object will be set on this.props
+              <br>
+              if that prop is not specified by the parent component.
+            </p>
+            <p>Invoked once and cached when the class is created.</p>
+          </section>
+
+          <section>
+            <h2 style="text-transform: none">getInitialState()</h2>
+            <p>The return value will be used as the initial value of this.state.</p>
+            <p>Invoked before a component is mounted.</p>
+          </section>
+
+          <section>
+            <h2 style="text-transform: none">setState(nextState, [callback])</h2>
+            <p>Merges nextState into the current state.</p>
+          </section>
+
+          <section>
+            <h2 style="text-transform: none">replaceState(nextState, [callback])</h2>
+            <p>Clears the component's state and sets it to nextState.</p>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Lifecycle methods
+
+              ```
+              void componentWillMount()
+
+              void componentDidMount()
+
+              void componentWillReceiveProps(object nextProps)
+
+              boolean shouldComponentUpdate(object nextProps, object nextState)
+
+              void componentWillUpdate(object nextProps, object nextState)
+
+              void componentDidUpdate(object prevProps, object prevState)
+
+              void componentWillUnmount()
+              ```
+            </script>
+          </section>
+        </section>
+
+        <section data-background="react-logo.svg" data-background-size="300px">
+        </section>
+
+        <section data-background="flux-logo.svg" data-background-size="300px">
+        </section>
+
+        <section>
+          <section>
+            <h2>Flux</h2>
+            <p>"Application Architecture for Building User Interfaces."</p>
+            <p>Complements React's composable view components by utilizing a unidirectional data flow.</p>
+            <aside class="notes">
+              It's more of a pattern rather than a formal framework.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Structure and Data Flow</h2>
+            <img src="https://facebook.github.io/flux/img/flux-simple-f8-diagram-1300w.png">
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>A Single Dispatcher</h2>
+            <p>The dispatcher is the central hub that manages all data flow.</p>
+            <p>
+              Receives actions from views and external sources
+              <br>
+              and sends them to the stores.
+            </p>
+          </section>
+
+          <section>
+            <h2>Stores</h2>
+            <p>Contain the application state and logic.</p>
+            <p>Actions result in updates to the state of the store.</p>
+            <p>After the stores are updated, they broadcast an event declaring that their state has changed.</p>
+          </section>
+
+          <section>
+            <h2>Views</h2>
+            <p>Views listen for events that are broadcasted by the stores.</p>
+            <p>When an event is received, the view requests the new state via the stores's public getters.</p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Redux</h2>
+            <p>"Predictable state container for JavaScript applications."</p>
+          </section>
+        </section>
+
+        <section data-background="flux-logo.svg" data-background-size="300px">
+        </section>
+
+        <section data-background="react-native-logo.svg" data-background-size="300px">
+        </section>
+
+        <section>
+          <section>
+            <h2>React Native</h2>
+            <p>"A framework for building native apps using React."</p>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Android example
+
+              ```js
+              var App = React.createClass({
+                render: function() {
+                  return <DrawerLayoutAndroid renderNavigationView={this.nav}>
+                    <ProgressBarAndroid />
+                  </DrawerLayoutAndroid>;
+                },
+                nav: function() {
+                  return <Text>
+                    React Native
+                  </Text>;
+                }
+              });
+              ```
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Touch Handling
+
+              ```js
+              var TouchDemo = React.createClass({
+                render: function() {
+                  return <ScrollView>
+                    <TouchableHighlight onPress={this.touched}>
+                      <Text>Proper Touch Handling</Text>
+                    </TouchableHighlight>
+                  </ScrollView>;
+                },
+                touched: function() {
+                  console.log('touched!');
+                }
+              });
+              ```
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Styling
+
+              Uses CSS-like syntax and supports flexbox natively.
+
+              ```js
+              var styles = StyleSheet.create({
+                image: {
+                  width: 40,
+                  height: 40,
+                  marginRight: 10
+                },
+                title: {
+                  fontSize: 11,
+                  fontWeight: 'bold'
+                },
+                text: {
+                  flex: 1,
+                  justifyContent: 'center'
+                }
+              });
+              ```
+            </script>
+          </section>
+
+          <section>
+            <h2>Asynchronous execution</h2>
+            <p>All operations between the JavaScript application code and the native platform are performed asynchronously.</p>
+          </section>
+
+          <section>
+            <h2>Polyfills</h2>
+            <p>Provides polyfils for most browser APIs, like XMLHttpRequest.</p>
+            <p>
+              There are also many packages on npm that polyfil other browser APIs,
+              like <a href="https://github.com/oney/react-native-webrtc">WebRTC</a>.
+            </p>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Extensibility
+
+              React Native is designed to be easily extended with custom native views and modules.
+
+              ```java
+              public class MyCustomModule extends ReactContextBaseJavaModule {
+                  @ReactMethod
+                  public void processString(String input, Callback callback) {
+                      callback.invoke(input.replace("Goodbye", "Hello"));
+                  }
+              }
+              ```
+            </script>
+          </section>
+
+          <section>
+            <h2>No webviews used</h2>
+            <p>Uses a JavaScript runtime, but the UI is not HTML.</p>
+            <p>Provides a native-level performance and look and feel.</p>
+          </section>
+        </section>
+
+        <section data-background="react-native-logo.svg" data-background-size="300px">
+        </section>
+
+        <section>
+          <h2>Questions?</h2>
+        </section>
+
+        <section>
+          <h2>Thank you!</h2>
+          <img src="http://i.myniceprofile.com/1496/149694.jpg">
         </section>
 			</div>
 		</div>
